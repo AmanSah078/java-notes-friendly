@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Concepts - Java Notes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Source+Code+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+    
+     <style>
+        /* ====== CUSTOM STYLES ====== */
+        :root {
+            --java-orange: #F89820;
+            --java-blue: #5382A1;
+            --dark-bg: #0f172a;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            color: white;
+            padding-top: 70px;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar-brand {
+            color: var(--java-orange) !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--java-orange), #e8791f);
+            padding: 40px 0;
+            margin-bottom: 40px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        /* Notes Container */
+        .notes-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Note Card - YAHAN TUM Q/A LIKHOGE */
+        .note-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--java-orange);
+            transition: all 0.3s;
+        }
+        
+        .note-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+        }
+        
+        /* Question Style */
+        .question {
+            color: var(--java-orange);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        /* Answer Style - YAHAN TUM APNA ANSWER LIKHOGE */
+        .answer {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        /* Code Block */
+        .code-block {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-block pre {
+            margin: 0;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 1rem;
+        }
+        
+        /* Key Points Box */
+        .key-points {
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #22c55e;
+        }
+        
+        /* Navigation Between Notes */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-btn {
+            background: var(--java-orange);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #e8791f;
+            transform: translateY(-2px);
+        }
+        
+        /* Topic Sidebar */
+        .topic-sidebar {
+            position: sticky;
+            top: 80px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .topic-item {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .topic-item:hover, .topic-item.active {
+            background: rgba(248, 152, 32, 0.1);
+            color: var(--java-orange);
+            border-left-color: var(--java-orange);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .question {
+                font-size: 1.3rem;
+            }
+            
+            .notes-container {
+                padding: 15px;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fab fa-java me-2"></i>JavaNotes
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-book me-1"></i> Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact"><i class="fas fa-envelope me-1"></i> Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Page Header -->
+ <!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">🧩 OOP Concepts in Java</h1>
+        <p class="lead">Master Object-Oriented Programming • 4 Pillars • Real Examples</p>
+    </div>
+</div>
+    
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar - TOPIC LIST (Yahan topic names badalna) -->
+            <!-- Sidebar - OOP TOPIC LIST -->
+<div class="col-lg-3 col-md-4 d-none d-md-block">
+    <div class="topic-sidebar p-3">
+        <h5 class="mb-4"><i class="fas fa-sitemap me-2"></i>OOP Topics</h5>
+        
+        <div class="topic-list">
+            <!-- Topic 1 -->
+            <div class="topic-item active" onclick="showNote(1)">
+                <i class="fas fa-play-circle me-2"></i>1. What is OOP?
+            </div>
+            
+            <!-- Topic 2 -->
+            <div class="topic-item" onclick="showNote(2)">
+                <i class="fas fa-play-circle me-2"></i>2. Classes & Objects
+            </div>
+            
+            <!-- Topic 3 -->
+            <div class="topic-item" onclick="showNote(3)">
+                <i class="fas fa-play-circle me-2"></i>3. Inheritance
+            </div>
+            
+            <!-- Topic 4 -->
+            <div class="topic-item" onclick="showNote(4)">
+                <i class="fas fa-play-circle me-2"></i>4. Polymorphism
+            </div>
+            
+            <!-- Topic 5 -->
+            <div class="topic-item" onclick="showNote(5)">
+                <i class="fas fa-play-circle me-2"></i>5. Abstraction
+            </div>
+            
+            <!-- Topic 6 -->
+            <div class="topic-item" onclick="showNote(6)">
+                <i class="fas fa-play-circle me-2"></i>6. Encapsulation
+            </div>
+            
+            <!-- Topic 7 -->
+            <div class="topic-item" onclick="showNote(7)">
+                <i class="fas fa-play-circle me-2"></i>7. OOP Examples
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- Main Content - NOTES (Yahan Q/A likhna) -->
+            <div class="col-lg-9 col-md-8">
+                <div class="notes-container">
+                    <!-- ============================================ -->
+                    <!-- NOTE 1: WHAT IS JAVA? -->
+                    <!-- ============================================ -->
+                   <!-- ============================================ -->
+<!-- NOTE 1: WHAT IS OOP? -->
+<!-- ============================================ -->
+<div class="note-card" id="note-1">
+    <!-- QUESTION -->
+    <div class="question">
+        <i class="fas fa-question-circle me-2"></i>Q: What is Object-Oriented Programming (OOP)?
+    </div>
+    
+    <!-- ANSWER -->
+    <div class="answer">
+        <p><strong>OOP</strong> is a programming paradigm that organizes software design around <strong>objects</strong> rather than functions and logic.</p>
+        
+        <div class="key-points">
+            <h6><i class="fas fa-key me-2"></i>4 Pillars of OOP:</h6>
+            <ol>
+                <li><strong>Inheritance:</strong> Child class inherits properties from parent class</li>
+                <li><strong>Polymorphism:</strong> One name, multiple forms</li>
+                <li><strong>Abstraction:</strong> Hiding implementation details</li>
+                <li><strong>Encapsulation:</strong> Wrapping data and methods together</li>
+            </ol>
+        </div>
+        
+        <div class="code-block">
+            <pre><code>// Simple OOP Example
+class Car {
+    // Attributes
+    String color;
+    String model;
+    
+    // Methods
+    void start() {
+        System.out.println("Car starting...");
+    }
+    
+    void drive() {
+        System.out.println("Driving " + model);
+    }
+}</code></pre>
+        </div>
+        
+        <p><strong>Real-world Analogy:</strong></p>
+        <ul>
+            <li><strong>Object:</strong> A specific car (like your Honda Civic)</li>
+            <li><strong>Class:</strong> Blueprint of a car</li>
+            <li><strong>Attributes:</strong> Color, model, engine type</li>
+            <li><strong>Methods:</strong> Start, drive, brake, stop</li>
+        </ul>
+    </div>
+</div>
+<!-- ============================================ -->
+<!-- NOTE 2: CLASSES & OBJECTS -->
+<!-- ============================================ -->
+<div class="note-card d-none" id="note-2">
+    <div class="question">
+        <i class="fas fa-question-circle me-2"></i>Q: What are Classes and Objects in Java?
+    </div>
+    
+    <div class="answer">
+        <p><strong>Class:</strong> Blueprint or template for creating objects.</p>
+        <p><strong>Object:</strong> Instance of a class with state and behavior.</p>
+        
+        <div class="key-points">
+            <h6><i class="fas fa-lightbulb me-2"></i>Key Points:</h6>
+            <ul>
+                <li>Class exists in code, Object exists in memory at runtime</li>
+                <li>Use <code>new</code> keyword to create objects</li>
+                <li>Multiple objects can be created from one class</li>
+                <li>Each object has separate memory space</li>
+            </ul>
+        </div>
+        
+        <div class="code-block">
+            <pre><code>// Class Definition
+class Student {
+    // Attributes (State)
+    String name;
+    int age;
+    String course;
+    
+    // Methods (Behavior)
+    void study() {
+        System.out.println(name + " is studying " + course);
+    }
+    
+    void displayInfo() {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+}
+
+// Creating Objects
+public class Main {
+    public static void main(String[] args) {
+        // Object 1
+        Student student1 = new Student();
+        student1.name = "Aman";
+        student1.age = 20;
+        student1.course = "Java";
+        student1.study();
+        
+        // Object 2
+        Student student2 = new Student();
+        student2.name = "Rohan";
+        student2.age = 22;
+        student2.course = "Python";
+        student2.displayInfo();
+    }
+}</code></pre>
+        </div>
+        
+        <p><strong>Output:</strong></p>
+        <div class="code-block" style="background: #2d3748;">
+            <pre><code>Aman is studying Java
+Name: Rohan, Age: 22</code></pre>
+        </div>
+    </div>
+</div>
+<!-- ============================================ -->
+<!-- NOTE 3: INHERITANCE -->
+<!-- ============================================ -->
+<div class="note-card d-none" id="note-3">
+    <div class="question">
+        <i class="fas fa-question-circle me-2"></i>Q: What is Inheritance in Java?
+    </div>
+    
+    <div class="answer">
+        <p><strong>Inheritance</strong> allows a class to acquire properties and methods of another class.</p>
+        
+        <div class="key-points">
+            <h6><i class="fas fa-rocket me-2"></i>Benefits:</h6>
+            <ul>
+                <li><strong>Code Reusability:</strong> Reuse parent class code</li>
+                <li><strong>Method Overriding:</strong> Runtime polymorphism</li>
+                <li><strong>Extensibility:</strong> Easy to extend functionality</li>
+            </ul>
+        </div>
+        
+        <div class="code-block">
+            <pre><code>// Parent Class
+class Vehicle {
+    String brand;
+    int year;
+    
+    void start() {
+        System.out.println("Vehicle starting...");
+    }
+    
+    void displayInfo() {
+        System.out.println("Brand: " + brand + ", Year: " + year);
+    }
+}
+
+// Child Class
+class Car extends Vehicle {
+    int doors = 4;
+    
+    void honk() {
+        System.out.println("Beep Beep!");
+    }
+}
+
+// Another Child Class
+class Bike extends Vehicle {
+    boolean hasCarrier = true;
+    
+    void wheelie() {
+        System.out.println("Doing a wheelie!");
+    }
+}
+
+// Main Class
+public class Main {
+    public static void main(String[] args) {
+        Car myCar = new Car();
+        myCar.brand = "Toyota";  // Inherited from Vehicle
+        myCar.year = 2023;       // Inherited from Vehicle
+        myCar.start();           // Inherited from Vehicle
+        myCar.honk();            // Own method
+        
+        Bike myBike = new Bike();
+        myBike.start();          // Inherited from Vehicle
+        myBike.wheelie();        // Own method
+    }
+}</code></pre>
+        </div>
+        
+        <p><strong>Types of Inheritance:</strong></p>
+        <ul>
+            <li><strong>Single:</strong> One child, one parent</li>
+            <li><strong>Multilevel:</strong> A extends B, B extends C</li>
+            <li><strong>Hierarchical:</strong> Multiple children, one parent</li>
+            <li><strong>Multiple:</strong> Not in Java (use interfaces)</li>
+        </ul>
+    </div>
+</div>
+                    
+                    <!-- Navigation Buttons -->
+                    <div class="nav-buttons">
+                        <button class="nav-btn" onclick="prevNote()">
+                            <i class="fas fa-arrow-left me-2"></i> Previous Topic
+                        </button>
+                        <!--Here Aman Look Here You have to Increase-->
+                        <div class="text-center">
+                            <span class="badge bg-primary p-2">
+                                Topic <span id="current-topic">1</span> of <span id="total-topics">3</span>
+                            </span>
+                        </div>
+                        
+                        <button class="nav-btn" onclick="nextNote()">
+                            Next Topic <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================ -->
+<!-- CONTACT SECTION (Add before footer) -->
+<!-- ============================================ -->
+<section id="contact" class="py-5" style="background: rgba(255,255,255,0.05);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-4"><i class="fas fa-envelope me-2"></i>Contact & Connect</h2>
+                <p class="mb-4">Have questions or suggestions? Feel free to reach out!</p>
+                
+                <!-- Contact Info Cards -->
+                <div class="row justify-content-center mt-4">
+                    
+                    <!-- Email Card -->
+                    <div class="col-md-4 mb-4">
+                        <div class="contact-card p-4 rounded">
+                            <div class="contact-icon mb-3">
+                                <i class="fas fa-envelope fa-2x text-primary"></i>
+                            </div>
+                            <h5>Email</h5>
+                            <p>📧 yourname@example.com</p>
+                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=amanalisiwan22@gmail.com&tf=cm" class="btn btn-sm btn-outline-primary">
+                                Send Email
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- GitHub Card -->
+                    <div class="col-md-4 mb-4">
+                        <div class="contact-card p-4 rounded">
+                            <div class="contact-icon mb-3">
+                                <i class="fab fa-github fa-2x text-dark"></i>
+                            </div>
+                            <h5>GitHub</h5>
+                            <p>💻 github.com/yourusername</p>
+                            <a href="https://github.com/AmanSah078" target="_blank" class="btn btn-sm btn-outline-dark">
+                                View Projects
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- LinkedIn Card -->
+                    <div class="col-md-4 mb-4">
+                        <div class="contact-card p-4 rounded">
+                            <div class="contact-icon mb-3">
+                                <i class="fab fa-linkedin fa-2x text-info"></i>
+                            </div>
+                            <h5>LinkedIn</h5>
+                            <p>💼 linkedin.com/in/yourprofile</p>
+                            <a href="https://www.linkedin.com/in/aman-ali-82053a2b8/" target="_blank" class="btn btn-sm btn-outline-info">
+                                Connect
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Quick Message -->
+                <div class="mt-5">
+                    <p class="text-muted">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Found these notes helpful? Star the project on GitHub! ⭐
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .contact-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .contact-card:hover {
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateY(-5px);
+        border-color: var(--java-orange);
+    }
+    
+    .contact-icon {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+</style>
+    <!-- Footer -->
+    <footer class="footer py-4 text-center mt-5" style="background: rgba(0,0,0,0.3);">
+        <div class="container">
+            <p class="mb-0">
+                Made with <i class="fas fa-heart text-danger mx-1"></i> for Java Learners
+                <br>
+                <small>Simple Q/A • Zero confusion • Practical examples</small>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ============================================
+        // JAVASCRIPT FOR NOTES NAVIGATION
+        // ============================================
+        
+       let currentNote = 1;
+
+// Get counts
+const totalNoteCards = document.querySelectorAll('.note-card').length;
+const totalTopicItems = document.querySelectorAll('.topic-item').length;
+const totalNotes = Math.min(totalNoteCards, totalTopicItems);
+
+// Function to show specific note
+function showNote(noteNumber) {
+    // Validate note number
+    if(noteNumber < 1 || noteNumber > totalNotes) {
+        console.warn(`Invalid note number: ${noteNumber}`);
+        return;
+    }
+    
+    const noteElement = document.getElementById(`note-${noteNumber}`);
+    const topicElements = document.querySelectorAll('.topic-item');
+    
+    // Hide all notes
+    for(let i = 1; i <= totalNotes; i++) {
+        const note = document.getElementById(`note-${i}`);
+        if(note) note.classList.add('d-none');
+        
+        if(topicElements[i-1]) {
+            topicElements[i-1].classList.remove('active');
+        }
+    }
+    
+    // Show selected note
+    if(noteElement) {
+        noteElement.classList.remove('d-none');
+    } else {
+        console.error(`Note element note-${noteNumber} not found!`);
+    }
+    
+    // Activate topic
+    if(topicElements[noteNumber-1]) {
+        topicElements[noteNumber-1].classList.add('active');
+    }
+    
+    currentNote = noteNumber;
+    updateNavigation();
+    
+    // Smooth scroll
+    window.scrollTo({ top: 300, behavior: 'smooth' });
+}
+
+// Update navigation buttons
+function updateNavigation() {
+    const currentEl = document.getElementById('current-topic');
+    const totalEl = document.getElementById('total-topics');
+    
+    if(currentEl) currentEl.textContent = currentNote;
+    if(totalEl) totalEl.textContent = totalNotes;
+}
+
+// Next/Previous functions
+function nextNote() {
+    if(currentNote < totalNotes) showNote(currentNote + 1);
+}
+
+function prevNote() {
+    if(currentNote > 1) showNote(currentNote - 1);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+    if(e.key === 'ArrowRight' || e.key === ' ') nextNote();
+    if(e.key === 'ArrowLeft') prevNote();
+    if(e.key >= '1' && e.key <= '9') {
+        const noteNum = parseInt(e.key);
+        if(noteNum <= totalNotes) showNote(noteNum);
+    }
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    console.log(`🎯 Notes System Loaded:`);
+    console.log(`- Note Cards: ${totalNoteCards}`);
+    console.log(`- Topic Items: ${totalTopicItems}`);
+    console.log(`- Working Notes: ${totalNotes}`);
+    
+    // Fix if counts don't match
+    if(totalNoteCards !== totalTopicItems) {
+        console.warn(`⚠️ Note cards (${totalNoteCards}) and topic items (${totalTopicItems}) count mismatch!`);
+    }
+    
+    updateNavigation();
+    Prism.highlightAll();
+    showNote(1);
+});
+    </script>
+</body>
+</html>
